@@ -1,6 +1,38 @@
 .App {
   text-align: center;
 }
+.Game {
+  text-align: center;
+}
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 50px);
+  grid-template-rows: repeat(3, 50px);
+  justify-content: center;
+}
+.square {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border: 2px solid lightgray;
+  font-size: 24px;
+}
+.square:nth-child(3n + 1){
+  border-left: none;
+}
+.square:nth-child(-n + 3){
+  border-top: none;
+}
+.square:nth-child(3n){
+  border-right: none;
+}
+.square:nth-child(n + 7){
+  border-bottom: none;
+}
+.square:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
 
 .App-logo {
   height: 40vmin;
