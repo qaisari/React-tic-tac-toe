@@ -1,11 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
+
+function HistoryButton({moveCount, onClick}) {
+  return (
+    <button onClick={onClick} className='historyB'>
+      Go to move #{moveCount}
+    </button>
+  );
+}
 
 export default function App() {
   const [currentPlayer, setCurrentPlayer] = useState("❌");
   const [board, setBoard] = useState(Array(9).fill(""));
+  const [history, setHistory] = useState([]);
   const [text, setText] = useState("Start");
+  const [currentMove, setCurrentMove] = useState(0);
+  
+  function jumpTo(moveIndex) {
+    setCurrentMove(moveIndex);
+    setBoard(history[moveIndex]);
+    setHistory(history.slice(0, moveIndex+1));
+    if (moveIndex % 2 === 0) {
+      setCurrentPlayer("⭕");
+    } else {
+      setCurrentPlayer("❌");
+    }
+  }
 
   function handleClick(position) {
     if(board[position] !== ""){
@@ -15,12 +35,16 @@ export default function App() {
 
     const newBoard = board.slice();
     newBoard[position] = currentPlayer;
+    const newHistory = history.slice(0, currentMove + 1);
+    setHistory([...newHistory, newBoard]);
     setBoard(newBoard);
+    setCurrentMove(newHistory.length);
 
     if (checkWin(newBoard)) {
       setText(`Player ${currentPlayer} Won!`);
       setTimeout(() => {
         setBoard(Array(9).fill(""));
+        setHistory([]);
       }, 500);
       return;
     }
@@ -29,6 +53,7 @@ export default function App() {
       setText("The game is draw");
       setTimeout(() => {
         setBoard(Array(9).fill(""));
+        setHistory([]);
       }, 500);
       return;
     }
@@ -54,12 +79,23 @@ export default function App() {
   return (
     <div className='Game'>
       <h1 className='text'>{text}</h1>
-      <div className='board'>
-        {board.map((value, idx) => (
-          <button className='square' key={idx} onClick={() => handleClick(idx)}>
-            {value}
-          </button>
-        ))}
+      <div className='gameContent'>
+        <div className='board'>
+          {board.map((value, idx) => (
+            <button className='square' onClick={() => handleClick(idx)}>
+              {value}
+            </button>
+          ))}
+        </div>
+        <div className='history'>
+          {history.map(( value, idx) => (
+            <HistoryButton
+            key={idx}
+            moveCount={idx + 1}
+            onClick={() => jumpTo(idx)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
