@@ -34,14 +34,17 @@
   cursor: pointer;
 }
 .gameContent {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   margin-top: 20px;
-  justify-content: flex-start;
   align-items: flex-start;
-  width: 300px;
-  margin-left: auto;
-  margin-right: auto;
+}
+.gameContent::before {
+  content: "";
+  display: block; /* Makes it a flex item */
+  min-width: 120px;   /* Matches .history min-width */
+  margin-right: 20px; /* Matches .history margin-left to create balance */
+  /* This element is invisible but occupies space */
 }
 .history {
   display: flex;
