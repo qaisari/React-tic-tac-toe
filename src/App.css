@@ -37,13 +37,19 @@
   display: flex;
   flex-direction: row;
   margin-top: 20px;
-  margin-left: 280px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .history {
   display: flex;
   flex-direction: column;
   margin-left: 20px;
   text-align: left;
+  min-width: 120px;   /* Reserve space for history buttons */
+  min-height: 180px;
 }
 .historyB {
   margin-bottom: 3px;
